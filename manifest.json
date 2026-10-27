@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "just-errors",
+  "version": "0.1.0",
+  "description": "Chụp màn hình câu hỏi trắc nghiệm và hiển thị đáp án tối giản ở góc dưới bên trái.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.deepseek.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "just-errors",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "solve": {
+      "suggested_key": {
+        "default": "Alt+Q"
+      },
+      "description": "Giải câu hỏi trên màn hình"
+    },
+    "toggle-mode": {
+      "suggested_key": {
+        "default": "Alt+Shift+Q"
+      },
+      "description": "Đổi chế độ Nhanh / Chính xác"
+    }
+  }
+}

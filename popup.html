@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>just-errors</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup">
+    <header class="top-row">
+      <div class="brand">
+        <span class="dot">·</span>
+        <span class="title">just-errors</span>
+      </div>
+      <label class="switch" title="Bật / tắt tiện ích">
+        <input type="checkbox" id="enabled-toggle" />
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <div class="section">
+      <div class="section-label">Chế độ</div>
+      <div class="segmented" role="radiogroup" aria-label="Chế độ giải">
+        <button type="button" class="seg-btn" data-mode="fast">Nhanh</button>
+        <button type="button" class="seg-btn" data-mode="accurate">Chính xác</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="section-label" for="provider-select">Nhà cung cấp AI</label>
+      <select id="provider-select">
+        <option value="anthropic">Anthropic (Claude)</option>
+        <option value="openai">OpenAI (ChatGPT)</option>
+        <option value="gemini">Google Gemini</option>
+        <option value="deepseek">DeepSeek</option>
+      </select>
+      <div id="model-badge" class="model-badge"></div>
+    </div>
+
+    <div class="usage-card" id="usage-card">
+      <div class="usage-row">
+        <span class="usage-label">Hôm nay:</span>
+        <span id="usage-calls" class="usage-val">0 lần gọi (0 cache)</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-label">Token (vào/ra):</span>
+        <span id="usage-tokens" class="usage-val">0 / 0</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-label">Token suy luận:</span>
+        <span id="usage-reasoning" class="usage-val">0</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-label">Chi phí ước tính:</span>
+        <span id="usage-cost" class="usage-val">$0.0000 (Tổng: $0.0000)</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-label">TB / lần gọi thật:</span>
+        <span id="usage-avg-cost" class="usage-val">$0.0000 / lần</span>
+      </div>
+    </div>
+
+    <div id="budget-warning" class="warning budget-alert hidden"></div>
+
+    <div id="key-warning" class="warning hidden">
+      <span>Chưa nhập API key cho nhà cung cấp này.</span>
+    </div>
+
+    <footer class="bottom-row">
+      <div class="shortcut-hint" title="Phím tắt chụp và giải">
+        Phím tắt: <kbd>Alt + Q</kbd>
+      </div>
+      <button type="button" id="open-options-btn" class="options-btn">Options</button>
+    </footer>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

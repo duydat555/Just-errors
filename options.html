@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cấu hình - just-errors</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <div>
+        <h1>just-errors</h1>
+        <p class="subtitle">Cấu hình nhà cung cấp AI, tên model, tối ưu chi phí và tùy chọn giải trắc nghiệm cá nhân.</p>
+      </div>
+      <div id="save-status" class="save-status" aria-live="polite"></div>
+    </header>
+
+    <section class="card">
+      <h2>Cài đặt chung</h2>
+      <div class="field-row">
+        <label for="provider-select">Nhà cung cấp đang dùng</label>
+        <select id="provider-select">
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="openai">OpenAI (ChatGPT)</option>
+          <option value="gemini">Google Gemini</option>
+          <option value="deepseek">DeepSeek</option>
+        </select>
+      </div>
+
+      <div class="field-row">
+        <label for="mode-select">Chế độ mặc định</label>
+        <select id="mode-select">
+          <option value="fast">Nhanh</option>
+          <option value="accurate">Chính xác</option>
+        </select>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="enable-fallback" />
+        <label for="enable-fallback">
+          Tự động chuyển sang model dự phòng (<code>fallbackModel</code>) cùng hãng khi model chính lỗi 429 (tốc độ) / 503
+        </label>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="enable-cross-fallback" />
+        <label for="enable-cross-fallback">
+          Dự phòng chéo sang nhà cung cấp khác (khi cả model chính và <code>fallbackModel</code> đều lỗi 429 / 503 / hết credit)
+        </label>
+      </div>
+
+      <div class="field-stack sub-field" id="cross-order-wrap">
+        <label for="cross-provider-order">Thứ tự ưu tiên nhà cung cấp dự phòng chéo (chỉ thử hãng đã nhập API key)</label>
+        <input
+          type="text"
+          id="cross-provider-order"
+          placeholder="anthropic, openai, deepseek, gemini"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="majority-vote" />
+        <label for="majority-vote">
+          Chế độ Chính xác chạy 2 lần tuần tự và lấy đa số cho từng câu (mặc định tắt)
+        </label>
+      </div>
+      <p class="inline-warning">
+        ⚠️ Cảnh báo: Tùy chọn này làm <strong>tăng gấp đôi chi phí</strong> và số request (chỉ chạy lần 2 khi bạn bật VÀ lần 1 thành công). Không nên bật khi cần tiết kiệm credit hoặc dùng gói Free tier.
+      </p>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="prefer-dom" />
+        <label for="prefer-dom">
+          Ưu tiên đọc văn bản trang (DOM trong viewport), dự phòng bằng ảnh chụp
+        </label>
+      </div>
+
+      <div class="field-stack">
+        <label for="custom-prompt">Prompt bổ sung (tùy chọn, ví dụ: "Đề thi môn Mạng máy tính bằng tiếng Anh")</label>
+        <textarea id="custom-prompt" rows="2" placeholder="Để trống nếu không cần..."></textarea>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Theo dõi chi tiêu cục bộ (Ước tính)</h2>
+      <p class="hint">
+        Extension cộng dồn trường <code>usage</code> từ phản hồi API theo ngày vào <code>chrome.storage.local</code> (chỉ lưu con số thống kê, tuyệt đối không lưu ảnh hay nội dung câu hỏi). Giá mặc định (2$/1M token vào, 10$/1M token ra) là <strong>ước tính</strong> theo <code>gpt-6.1-sol</code>; hãy tự cập nhật nếu hãng đổi giá.
+      </p>
+
+      <div class="models-grid">
+        <div class="model-field">
+          <label for="price-input">Giá token vào ($ / 1M token)</label>
+          <input type="text" id="price-input" placeholder="2" spellcheck="false" />
+        </div>
+        <div class="model-field">
+          <label for="price-output">Giá token ra ($ / 1M token)</label>
+          <input type="text" id="price-output" placeholder="10" spellcheck="false" />
+        </div>
+        <div class="model-field">
+          <label for="budget-alert">Ngưỡng cảnh báo chi tiêu ($)</label>
+          <input type="text" id="budget-alert" placeholder="3" spellcheck="false" />
+        </div>
+      </div>
+
+      <div class="usage-summary-row">
+        <span id="options-usage-summary" class="provider-note">Đang tải thống kê chi tiêu…</span>
+        <button type="button" id="reset-usage-btn" class="btn-secondary">Đặt lại bộ đếm chi tiêu</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Nhà cung cấp AI &amp; Model</h2>
+      <p class="hint">
+        Nút <strong>Kiểm tra key</strong> chỉ gọi <code>GET /models</code> để xác thực key và đối chiếu tên model (không tốn quota giải bài). Nút <strong>Thử model</strong> mới gửi 1 yêu cầu ngắn tới <code>fastModel</code>.
+      </p>
+
+      <div id="providers-list" class="providers-list"></div>
+    </section>
+
+    <section class="card">
+      <h2>Phím tắt</h2>
+      <p class="hint">
+        Phím tắt mặc định là <strong>Alt + Q</strong> (giải câu hỏi) và <strong>Alt + Shift + Q</strong> (đổi chế độ).
+        Do Chrome chặn mở liên kết nội bộ trực tiếp, hãy sao chép địa chỉ dưới đây và dán vào thanh địa chỉ để đổi phím tắt:
+      </p>
+      <div class="shortcut-copy-row">
+        <code id="shortcuts-url">chrome://extensions/shortcuts</code>
+        <button type="button" id="copy-shortcuts-btn" class="btn-secondary">Sao chép địa chỉ</button>
+      </div>
+    </section>
+
+    <footer class="actions-bar">
+      <button type="button" id="reset-defaults-btn" class="btn-secondary">Khôi phục tên model mặc định</button>
+      <button type="button" id="save-btn" class="btn-primary">Lưu cấu hình &amp; Đối chiếu model</button>
+    </footer>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

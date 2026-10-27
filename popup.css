@@ -1,0 +1,250 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 14px;
+  width: 280px;
+  background: #0b0b0c;
+  color: #f3f4f6;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  user-select: none;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #000000;
+  border: 1px solid #323238;
+  border-radius: 5px;
+  font-weight: 800;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #27272c;
+  border-radius: 20px;
+  transition: background-color 0.12s ease;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.switch input:checked + .slider {
+  background-color: #ffffff;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(16px);
+  background-color: #000000;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #16161a;
+  border: 1px solid #26262c;
+  border-radius: 7px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.seg-btn {
+  border: 0;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.seg-btn.active {
+  background: #ffffff;
+  color: #000000;
+}
+
+select {
+  width: 100%;
+  background: #16161a;
+  color: #f3f4f6;
+  border: 1px solid #2b2b33;
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 13px;
+  outline: none;
+}
+
+select:focus {
+  border-color: #e5e7eb;
+}
+
+.model-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usage-card {
+  background: #131317;
+  border: 1px solid #24242b;
+  border-radius: 7px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+}
+
+.usage-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.usage-label {
+  color: #9ca3af;
+}
+
+.usage-val {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: #e5e7eb;
+  font-weight: 600;
+}
+
+.warning {
+  background: #2b1414;
+  border: 1px solid #5c2323;
+  color: #fca5a5;
+  font-size: 12px;
+  padding: 7px 9px;
+  border-radius: 6px;
+  line-height: 1.35;
+}
+
+.budget-alert {
+  background: #2d210f;
+  border-color: #785216;
+  color: #fcd34d;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #1f1f24;
+}
+
+.shortcut-hint {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #1a1a1f;
+  border: 1px solid #2f2f37;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.options-btn {
+  background: #1d1d22;
+  color: #f3f4f6;
+  border: 1px solid #303038;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.options-btn:hover {
+  background: #28282f;
+}
